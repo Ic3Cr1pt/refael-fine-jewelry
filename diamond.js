@@ -41,7 +41,7 @@
         float inner=studio(normalize(reflected+vec3(sin(split*1.7),local.y*.9,cos(split*1.1))*.74));
         float fresnel=pow(1.-clamp(dot(n,eye),0.,1.),2.);
         float value=.06+.54*mirror+.43*inner+.18*fresnel;
-        vec3 color=mix(vec3(.37,.45,.49),vec3(1.,.955,.84),clamp(value,0.,1.))*value;
+        vec3 color=vec3(mix(.44,.96,clamp(value,0.,1.))*value);
         gl_FragColor=vec4(color,1.);
       }`;
     function shader(type, source) {
