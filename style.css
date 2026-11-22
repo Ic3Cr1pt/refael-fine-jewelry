@@ -150,8 +150,7 @@ h2{font:400 clamp(2.55rem,4.45vw,5rem)/1.1 var(--serif);letter-spacing:-.045em}
 #gem,.gem-fallback{position:absolute;inset:0;width:100%;height:100%}
 #gem{touch-action:pan-y;cursor:grab}
 #gem:active{cursor:grabbing}
-.gem-fallback{display:grid;place-items:center;color:#d3d3d3}
-.gem-fallback .icon{width:43%;height:55%;stroke-width:.43}
+.gem-fallback{object-fit:contain}
 .diamond-stage figcaption{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #b4b4b44d;margin:0 20px;padding:8px 0;direction:ltr;gap:10px}
 .diamond-stage figcaption span{font:italic 1.6rem var(--italic)}
 #turn-gem{display:flex;align-items:center;gap:8px;min-height:44px;color:#dfdfdf;font: .94rem var(--sans)}

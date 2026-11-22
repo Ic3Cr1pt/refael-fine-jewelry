@@ -29,7 +29,7 @@
       varying vec3 surface, local, point;
       float studio(vec3 r){
         float ribbon = smoothstep(.75,.94,abs(sin(3.4*r.x+1.3*r.y-1.1*r.z)));
-        float pane = smoothstep(-.32,.05,r.y) * smoothstep(.52,.46,abs(r.x+.1));
+        float pane = smoothstep(-.32,.05,r.y) * (1.-smoothstep(.46,.52,abs(r.x+.1)));
         return .06+.63*ribbon+.61*pane;
       }
       void main(){
@@ -38,10 +38,14 @@
         float mirror=studio(reflected);
         float polar=atan(local.z,local.x);
         float split=floor((polar+3.14159)*7.64);
-        float inner=studio(normalize(reflected+vec3(sin(split*1.7),local.y*.9,cos(split*1.1))*.74));
+        vec3 ray=normalize(reflected+vec3(sin(split*1.7),local.y*.9,cos(split*1.1))*.74);
+        // Slightly different light paths give the bright facet edges their color.
+        vec3 spread=.052*vec3(cos(polar), .55, sin(polar));
+        vec3 inner=vec3(studio(normalize(ray-spread)), studio(ray), studio(normalize(ray+spread)));
         float fresnel=pow(1.-clamp(dot(n,eye),0.,1.),2.);
-        float value=.06+.54*mirror+.43*inner+.18*fresnel;
-        vec3 color=vec3(mix(.44,.96,clamp(value,0.,1.))*value);
+        vec3 value=.06+.54*mirror+.43*inner+.18*fresnel;
+        vec3 studioTint=mix(vec3(.78,.87,1.),vec3(1.,.93,.82),smoothstep(-.6,.7,reflected.x));
+        vec3 color=value*mix(studioTint*.55,vec3(1.),clamp(value,0.,1.));
         gl_FragColor=vec4(color,1.);
       }`;
     function shader(type, source) {
